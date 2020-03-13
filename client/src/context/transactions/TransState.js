@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import TransContext from './transContext'
 import transReducer from './transReducer'
-import { USER_TRANSACTIONS } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION } from '../types'
 
 const TransState = props => {
   const initialState = {
@@ -24,10 +24,19 @@ const TransState = props => {
     })
   }
 
+  const deleteTransaction = id => {
+    dispatch({
+      type: DELETE_TRANSACTION,
+      payload: id
+    })
+  }
+
   return (
     <TransContext.Provider
       value={{
-        getTransactions
+        transactions: state.transactions,
+        getTransactions,
+        deleteTransaction
       }}
     >
       {props.children}
