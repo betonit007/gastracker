@@ -1,10 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import AuthContext from '../context/auth/authContext'
 
 const Landing = () => {
 
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated, loadUser } = useContext(AuthContext)
+
+  useEffect(() => {
+    loadUser();
+  })
 
   if (isAuthenticated) {
     return (

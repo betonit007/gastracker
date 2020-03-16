@@ -17,7 +17,7 @@ router.post('/', [
     ] 
 ], 
     async (req, res) => {
-      console.log('route hit')
+    
       const errors = validationResult(req);
       if(!errors.isEmpty()) {
           return res.status(400).json({ errors: errors.array() })
@@ -50,8 +50,8 @@ router.post('/', [
       }
 })
 
-//public route to get all readings
-router.get('/', async (req, res) => {
+//private route to get all readings
+router.get('/', auth, async (req, res) => {
   try {
      
     const readings = await Reading.find().sort({ date: -1 })

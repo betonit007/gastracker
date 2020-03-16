@@ -1,11 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Transaction from './Transaction'
 import TransContext from '../context/transactions/transContext'
 
 const TransactionList = () => {
 
-
   const transContext = useContext(TransContext);
+
+  useEffect(() => {
+    transContext.getUserTransactions()
+  
+  }, [])
 
   return (
     <>

@@ -15,7 +15,8 @@ export default (state, action) => {
             }
         case USER_TRANSACTIONS:
             return {
-                ...state,            
+                ...state,
+                transactions: action.payload            
             }
         default:
             return state
