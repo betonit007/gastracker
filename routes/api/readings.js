@@ -8,21 +8,23 @@ const User = require('../../models/Users')
 //Private POST route to record a reading
 router.post('/', [ 
     auth, 
-    [ 
-        check('store', 'Store name is required').not().isEmpty(),
-        check('total', 'A total price must be included').not().isEmpty().isNumeric(),
-        check('perGallon', 'A total price must be included').not().isEmpty().isNumeric(),
-        check('numGallons', 'A numGallons price must be included').not().isEmpty().isNumeric(),
+    [    
+        check('text', 'A description is required').not().isEmpty(),
+        //check('store', 'Store name is required').not().isEmpty(),
+        check('amount', 'A total price must be included').not().isEmpty().isNumeric(),
+        //check('perGallon', 'A total price must be included').not().isEmpty().isNumeric(),
+        //check('numGallons', 'A numGallons price must be included').not().isEmpty().isNumeric(),
     ] 
 ], 
     async (req, res) => {
+      console.log('route hit')
       const errors = validationResult(req);
       if(!errors.isEmpty()) {
           return res.status(400).json({ errors: errors.array() })
       }
       try {
         
-        const { store, street, city, state, total, perGallon, numGallons } = req.body
+        const { store, street, city, state, amount, perGallon, numGallons } = req.body
         const user = await User.findById(req.user.id).select('-password')
 
         const newReading = new Reading({
@@ -33,7 +35,7 @@ router.post('/', [
             street,
             city,
             state,
-            total,
+            amount,
             perGallon,
             numGallons
         })

@@ -6,9 +6,11 @@ const ReadingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
+    text: {
+        type: String
+    },
     store: {
         type: String,
-        required: true
     },
     street: {
         type: String,
@@ -20,17 +22,15 @@ const ReadingSchema = new Schema({
     state: {
         type: String
     },
-    total: {
+    amount: {
         type: Number,
         required: true
     },
     perGallon: {
         type: Number,
-        required: true
     },
     numGallons: {
         type: Number,
-        required: true
     }
     
 })

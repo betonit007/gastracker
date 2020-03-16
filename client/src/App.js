@@ -1,11 +1,10 @@
 import React from 'react';
-import Header from './components/Header'
-import Balance from './components/Balance'
-import BudgetExpenses from './components/BudgetExpenses'
-import TransactionList from './components/TransactionList'
-import AddTransaction from './components/AddTransaction'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AuthState from './context/auth/AuthState'
 import TransState from './context/transactions/TransState'
+import Header from './components/Header'
+import Landing from './components/Landing'
+import Main from './Main'
 import './App.css';
 
 
@@ -15,15 +14,17 @@ const App = () => {
   return (
     <AuthState>
       <TransState>
-        <div className="App">
-          <Header />
-          <div className="container">
-            <Balance />
-            <BudgetExpenses />
-            <TransactionList />
-            <AddTransaction />
+        <Router>
+          <div className="App">
+            <Header />
+            <div className="container">
+              <Switch>
+                <Route exact path='/' component={Landing} />
+                <Route exact path='/main' component={Main} />
+              </Switch>
+            </div>
           </div>
-        </div>
+        </Router>
       </TransState>
     </AuthState>
   );

@@ -40,6 +40,20 @@ h4 {
   text-transform: uppercase;
 }
 
+.loginFields {
+  display: flex;
+}
+
+.userLoggedIn {
+  display: flex;
+  align-content: center;
+}
+
+.logout-button {
+  flex: 0 0 25%;
+  margin-left: auto;
+}
+
 .inc-exp-container {
   background-color: #fff;
   box-shadow: var(--box-shadow);
