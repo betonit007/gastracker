@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { Redirect } from 'react-router-dom'
+import AuthContext from '../context/auth/authContext'
 
 const Landing = () => {
+
+  const { isAuthenticated } = useContext(AuthContext)
+
+  if (isAuthenticated) {
     return (
-        <div>
-            Landing
-        </div>
+      <Redirect to='/main' />
     )
+  }
+
+  return (
+    <div>
+      Landing
+    </div>
+  )
 }
 
 export default Landing
