@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload')
 const connectDB = require('./config/db')
 
 const app = express();
@@ -6,8 +7,7 @@ const app = express();
 connectDB()
 
 app.use(express.json({ extended: false }))
-
-
+app.use(fileUpload())
 
 app.use(`/api/users`, require(`./routes/api/users`));
 app.use(`/api/readings`, require(`./routes/api/readings`));

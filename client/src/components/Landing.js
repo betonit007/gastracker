@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import AuthContext from '../context/auth/authContext'
 
 const Landing = () => {
@@ -17,10 +17,20 @@ const Landing = () => {
   }
 
   return (
-    <div>
-      Landing
-    </div>
+    <>
+      <div className="register">
+        <p>Don't have an account? </p>
+        <div>
+          <p>
+            <Link to='/register'>
+              {' '}click here to register
+            </Link>
+          </p>
+        </div>
+      </div>
+    </>
   )
 }
+
 
 export default Landing

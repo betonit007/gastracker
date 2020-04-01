@@ -10,7 +10,7 @@ const Transaction = ({ trans }) => {
   return (
     <>
       <li className={trans.amount < 0 ? 'minus' : 'plus'} key={trans.id}>
-  {trans.text} <span>{sign}${Math.abs(trans.amount)}</span><button className="delete-btn" onClick={()=>deleteTransaction(trans.id)}>x</button>
+        {trans.text} <span>{sign}${Math.abs(trans.amount)}</span><button className="delete-btn" onClick={() => deleteTransaction(trans._id)}>x</button>
       </li>
     </>
   )

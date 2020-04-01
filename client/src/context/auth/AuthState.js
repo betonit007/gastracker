@@ -12,6 +12,7 @@ const AuthState = props => {
         loading: true,
         user: null,
         error: null,
+        registerPage: false,
         saved: []
     }
 
@@ -56,7 +57,7 @@ const AuthState = props => {
 
     //Login User
     const login = async formData => {
-        console.log(formData)
+       
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -94,6 +95,7 @@ const AuthState = props => {
          dispatch({ type: CLEAR_ERRORS });
      }
 
+
      return (
          <AuthContext.Provider
            value={{
@@ -102,16 +104,19 @@ const AuthState = props => {
                loading: state.loading,
                user: state.user,
                error: state.error,
+               registerPage: state.registerPage,
                register,
                loadUser,
                login,
                logout,
-               clearErrors
+               clearErrors,
+               setLoading
            }}
            >
                {props.children}
            </AuthContext.Provider>
      )
+
 }
 
 export default AuthState

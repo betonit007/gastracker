@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const { check, validationResult } = require('express-validator')
+const vision = require('@google-cloud/vision');
 const auth = require('../../middleware/auth')
 const Reading = require('../../models/Readings')
 const User = require('../../models/Users')
+
 
 //Private POST route to record a reading
 router.post('/', [ 
@@ -24,12 +26,13 @@ router.post('/', [
       }
       try {
         
-        const { store, street, city, state, amount, perGallon, numGallons } = req.body
+        const { store, street, city, state, amount, perGallon, numGallons, text } = req.body
         const user = await User.findById(req.user.id).select('-password')
 
         const newReading = new Reading({
             user: req.user.id,
             name: user.name,
+            text,
             avatar: user.avatar,
             store,
             street,
@@ -51,10 +54,19 @@ router.post('/', [
 })
 
 //private route to get all readings
-router.get('/', auth, async (req, res) => {
+router.get('/:id/:millisecs', auth, async (req, res) => {
+ console.log(req.params.millisecs)
   try {
-     
-    const readings = await Reading.find().sort({ date: -1 })
+    const readings = await Reading.find(
+      {
+        date: {     
+          $lt: Date.now(),  //Start Date (will always be Date.now())
+          $gt: Date.now() - 2592000000 //default one week in miliseconds
+        },
+        user: req.params.id
+      }
+      
+    ).sort({ date: -1 })
     res.json(readings)
 
   } catch (err) {
@@ -67,7 +79,8 @@ router.get('/', auth, async (req, res) => {
 router.get('/', async (req, res) => {
     try {
        
-      const readings = await Reading.find().sort({ date: -1 })
+      const readings = await Reading.find({}).sort({ date: -1 })
+
       res.json(readings)
   
     } catch (err) {
@@ -75,5 +88,58 @@ router.get('/', async (req, res) => {
       res.status(500).send('Server Error')
     }
   })
+
+  //delete reading by id
+router.delete('/:id', auth, async (req, res) => {
+
+  console.log(req.user, req.params.id)
+ 
+  try {
+
+    const reading = await Reading.findById(req.params.id)
+
+    if (!reading) {
+      return res.status(404).json({ msg: 'Post not found' })
+    }
+    
+    if (reading.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' })
+    }
+    await reading.remove();
+
+    res.json({ msg: 'Reading removed' })
+
+  } catch (err) {
+    console.error(err)
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Reading not found' })
+    }
+    res.status(500).send('Server Error')
+  }
+})
+
+router.post('/upload', async (req, res) => {
+
+  if (req.files === null) {
+      return res.status(400).json({ msg: 'No file uploaded' })
+  }
+
+  const file = req.files.file
+
+  //TO MOVE PHOTO/FILE TO TO PUBLIC FOLDER
+  file.mv(`${__dirname}/resources/${file.name}`, async err => {
+      if (err) {
+          console.error(err)
+          return res.status(500).send(err)
+      }
+      // Creates a client
+      const client = new vision.ImageAnnotatorClient();
+      const [result] = await client.textDetection(`./resources/${file.name}`);
+
+      res.json(result.fullTextAnnotation.text.split('\n'))
+  })
+})
+
+//GOOGLE_APPLICATION_CREDENTIALS="C:\Users\timna\dev\googleCloud\vision\resources\fuel.json" node vision.js    
 
 module.exports = router

@@ -6,6 +6,7 @@ import PrivateRoute from './routing/PrivateRoute'
 import Header from './components/Header'
 import Landing from './components/Landing'
 import Main from './Main'
+import Register from './components/Register'
 import './App.css';
 
 
@@ -17,10 +18,11 @@ const App = () => {
       <TransState>
         <Router>
           <div className="App">
-            <Header />
             <div className="container">
+              <Header />
               <Switch>
                 <Route exact path='/' component={Landing} />
+                <Route exact path='/register' component={Register} />
                 <PrivateRoute exact path='/main' component={Main} />
               </Switch>
             </div>

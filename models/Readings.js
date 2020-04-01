@@ -31,8 +31,12 @@ const ReadingSchema = new Schema({
     },
     numGallons: {
         type: Number,
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
-    
+
 })
 
 module.exports = Reading = mongoose.model('reading', ReadingSchema)

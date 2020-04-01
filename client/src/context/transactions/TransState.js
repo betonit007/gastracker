@@ -2,53 +2,96 @@ import React, { useReducer } from 'react'
 import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE } from '../types'
 
 const TransState = props => {
   const initialState = {
-    transactions: []
+    transactions: [],
+    loading: true,
+    millisecs: 604800000
   }
 
 
   const [state, dispatch] = useReducer(transReducer, initialState)
 
   //Get Transactions by user
-  const getUserTransactions = async () => {
-    console.log('called')
+  const getUserTransactions = async (id) => {  //millisecs = 1 week
+    
     try {
-      const res = await axios.get('/api/readings');
-      console.log(res)
+      const res = await axios.get(`/api/readings/${id}/${state.millisecs}`);
+      console.log(res.data);
       dispatch({
         type: USER_TRANSACTIONS,
         payload: res.data
       })
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 
-  const addTransaction = transaction => {
+  const addTransaction = async transaction => {
 
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    //const body = JSON.stringify({ name, email, password })
+
+    try {
+      const res = await axios.post('/api/readings', transaction, config);
+      dispatch({
+        type: ADD_TRANSACTION,
+        payload: res.data
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+
+  const deleteTransaction = async id => {
+    
+    try {
+
+      const res = await axios.delete(`/api/readings/${id}`)
+      console.log(res)
+      dispatch({
+        type: DELETE_TRANSACTION,
+        payload: id
+      })
+
+    } catch (error) {
+      console.error(error)
+    }
+
+  }
+
+  const changehistoryDays = () => {
     dispatch({
-      type: ADD_TRANSACTION,
-      payload: transaction
+      type: CHANGE_DAYS
     })
   }
 
-  const deleteTransaction = id => {
+  const clearTransState = () => {
     dispatch({
-      type: DELETE_TRANSACTION,
-      payload: id
+      type: CLEAR_TRANSSTATE
     })
   }
+  
 
   return (
     <TransContext.Provider
       value={{
         transactions: state.transactions,
+        loading: state.loading,
+        millisecs: state.millisecs,
         getUserTransactions,
         deleteTransaction,
-        addTransaction
+        addTransaction,
+        changehistoryDays,
+        clearTransState
       }}
     >
       {props.children}
