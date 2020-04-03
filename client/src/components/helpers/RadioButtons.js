@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import TransContext from '../../context/transactions/transContext'
 
-const RadioButtons = () => {
+const RadioButtons = ({ user }) => {
 
-  const { millisecs, changehistoryDays } = useContext(TransContext)
+  const { getUserTransactions, millisecs } = useContext(TransContext)
 
   return (
     <>
@@ -16,7 +16,7 @@ const RadioButtons = () => {
                   type="radio"
                   value="option1"
                   checked={millisecs === 604800000}
-                  onChange={() => changehistoryDays()}
+                  onChange={() => getUserTransactions(user, 604800000)}
                 />
                 7 days
               </label>
@@ -27,7 +27,7 @@ const RadioButtons = () => {
                   type="radio"
                   value="option2"
                   checked={millisecs === 2592000000}
-                  onChange={() => changehistoryDays()}
+                  onChange={() => getUserTransactions(user, 2592000000)}
                 />
                 30 days
               </label>

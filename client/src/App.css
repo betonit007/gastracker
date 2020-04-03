@@ -108,6 +108,15 @@ label {
   margin: 10px 0;
 }
 
+.addTrans {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+}
+
 input[type='text'],
 input[type='email'],
 input[type='password'],
@@ -132,6 +141,13 @@ input[type='number'] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+}
+
+.btn-add-transaction {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 10px auto;
 }
 
 .register {

@@ -1,7 +1,8 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
+import AuthContext from '../auth/authContext'
 import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE } from '../types'
 
 const TransState = props => {
@@ -11,18 +12,17 @@ const TransState = props => {
     millisecs: 604800000
   }
 
-
   const [state, dispatch] = useReducer(transReducer, initialState)
+  const { user } = useContext(AuthContext)
 
   //Get Transactions by user
-  const getUserTransactions = async (id) => {  //millisecs = 1 week
+  const getUserTransactions = async (id, millisecs = 604800000) => {  //millisecs = 1 week
     
     try {
-      const res = await axios.get(`/api/readings/${id}/${state.millisecs}`);
-      console.log(res.data);
+      const res = await axios.get(`/api/readings/${id}/${millisecs}`);
       dispatch({
         type: USER_TRANSACTIONS,
-        payload: res.data
+        payload: {res: res.data, millisecs} 
       })
     } catch (err) {
       console.error(err)
@@ -55,8 +55,8 @@ const TransState = props => {
     
     try {
 
-      const res = await axios.delete(`/api/readings/${id}`)
-      console.log(res)
+      await axios.delete(`/api/readings/${id}`)
+      
       dispatch({
         type: DELETE_TRANSACTION,
         payload: id
@@ -68,13 +68,8 @@ const TransState = props => {
 
   }
 
-  const changehistoryDays = () => {
-    dispatch({
-      type: CHANGE_DAYS
-    })
-  }
-
   const clearTransState = () => {
+
     dispatch({
       type: CLEAR_TRANSSTATE
     })
@@ -90,7 +85,6 @@ const TransState = props => {
         getUserTransactions,
         deleteTransaction,
         addTransaction,
-        changehistoryDays,
         clearTransState
       }}
     >

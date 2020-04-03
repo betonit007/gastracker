@@ -18,7 +18,7 @@ const TransactionList = () => {
     <>
       <header className='underline-header'>
         <h3>History</h3>
-        <RadioButtons />
+        <RadioButtons user={user && user._id}/>
       </header>
       {loading ?
         'loading...'

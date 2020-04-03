@@ -16,13 +16,14 @@ export default (state, action) => {
         case USER_TRANSACTIONS:
             return {
                 ...state,
-                transactions: action.payload,
+                transactions: action.payload.res,
+                millisecs: action.payload.millisecs,
                 loading: false            
             }
         case CHANGE_DAYS:
             return {
                 ...state,
-                millisecs: state.millisecs === 604800000 ? 2592000000 : 604800000
+                millisecs: action.payload
             }
         case CLEAR_TRANSSTATE:
             return {
