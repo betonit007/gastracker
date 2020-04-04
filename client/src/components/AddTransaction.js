@@ -7,12 +7,11 @@ const AddTransaction = () => {
   
   const onChange = e => {
     setFile(e.target.files[0])
-    console.log(e.target.files)
   }
 
   return (
     <>
-      {file && <Modal uploadFile={file} setFile={setFile}/>}
+      {true && <Modal uploadFile={file} setFile={setFile}/>}
       <label className="btn btn-add-transaction">
         <input 
           type="file" 

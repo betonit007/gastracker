@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom'
+import VisionResults from './VisionResults'
 import ProgressBar from './ProgressBar'
 import axios from 'axios'
 import './Modal.css'
@@ -11,7 +12,7 @@ const Modal = ({ uploadFile, setFile }) => {
   }
 
   const [upLoadPercentage, setUpLoadPercentage] = useState(0)
-  const [vision, setVision] = useState([])
+  const [vision, setVision] = useState([1])
 
   const onSubmit = async e => {
     e.preventDefault()
@@ -28,8 +29,7 @@ const Modal = ({ uploadFile, setFile }) => {
           console.log(progressEvent)
         }
       })
-      setVision(res.data)
-      console.log(vision)
+      setTimeout(setVision(res.data), 200)
 
     } catch (err) {
       if (err.response.status === 500) { console.log('Problem with Server') }
@@ -41,15 +41,27 @@ const Modal = ({ uploadFile, setFile }) => {
   return ReactDOM.createPortal(
     <div onClick={(e) => resetModal(e)} className='modalContainer'>
       <div className='modalContent' onClick={(e) => e.stopPropagation()} >
-        <ProgressBar percentage={upLoadPercentage} />
-        <div className="row mt-5">
-          <div className="col-md-6 m-auto">
-            <img style={{ width: '100%' }} src={window.URL.createObjectURL(uploadFile)} alt="upload" />
-          </div>
-          <form onSubmit={onSubmit}>
-            <input type="submit" value="Upload" className="btn btn-primary btn-block mt-4" />
-          </form>
-        </div>
+        {vision.length > 0 ?
+          (
+            <>
+              <VisionResults vision={vision}/>
+            </>
+          )
+          :
+          (
+            <>
+              <ProgressBar percentage={upLoadPercentage} />
+              <div className="row mt-5">
+                <div className="col-md-6 m-auto">
+                  <img style={{ width: '100%' }} src={window.URL.createObjectURL(uploadFile)} alt="upload" />
+                </div>
+                <form onSubmit={onSubmit}>
+                  <input type="submit" value="Upload" className="btn btn-primary btn-block mt-4" />
+                </form>
+              </div>
+            </>
+          )
+        }
       </div>
     </div>, document.querySelector('#modal')
   )

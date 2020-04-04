@@ -5,7 +5,15 @@
 }
 
 .filler {
-    background-color: #1DA598;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    #9c88ff,
+    #9c88ff 10px,
+    #dfb4f3 10px,
+    #dfb4f3 20px
+  );
     height: inherit;
     transition: width .2s ease-in;
 }
+
