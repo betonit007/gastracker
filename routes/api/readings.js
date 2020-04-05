@@ -11,34 +11,34 @@ const User = require('../../models/Users')
 router.post('/', [
   auth,
   [
-    check('text', 'A description is required').not().isEmpty(),
+    check('store', 'Store name is required').not().isEmpty(),
     //check('store', 'Store name is required').not().isEmpty(),
-    check('amount', 'A total price must be included').not().isEmpty().isNumeric(),
+    //check('total', 'A total price must be included').not().isEmpty().isNumeric(),
     //check('perGallon', 'A total price must be included').not().isEmpty().isNumeric(),
     //check('numGallons', 'A numGallons price must be included').not().isEmpty().isNumeric(),
   ]
 ],
   async (req, res) => {
-
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors)
       return res.status(400).json({ errors: errors.array() })
     }
     try {
-
-      const { store, street, city, state, amount, perGallon, numGallons, text } = req.body
+      
+      const { store, street, city, state, total, perGallon, numGallons } = req.body
       const user = await User.findById(req.user.id).select('-password')
 
       const newReading = new Reading({
         user: req.user.id,
         name: user.name,
-        text,
         avatar: user.avatar,
         store,
         street,
         city,
         state,
-        amount,
+        total,
         perGallon,
         numGallons
       })

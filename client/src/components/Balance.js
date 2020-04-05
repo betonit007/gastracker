@@ -4,7 +4,7 @@ import TransContext from '../context/transactions/transContext'
 const Balance = () => {
 
     const { transactions, loading } = useContext(TransContext);
-    const total = transactions.reduce((acc, trans) => acc + trans.amount, 0).toFixed(2)
+    const total = transactions.reduce((acc, trans) => acc + trans.total, 0).toFixed(2)
   
     return (
         <>

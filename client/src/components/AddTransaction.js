@@ -11,7 +11,7 @@ const AddTransaction = () => {
 
   return (
     <>
-      {true && <Modal uploadFile={file} setFile={setFile}/>}
+      {file && <Modal uploadFile={file} setFile={setFile}/>}
       <label className="btn btn-add-transaction">
         <input 
           type="file" 

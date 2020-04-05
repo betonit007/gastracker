@@ -12,7 +12,7 @@ const Modal = ({ uploadFile, setFile }) => {
   }
 
   const [upLoadPercentage, setUpLoadPercentage] = useState(0)
-  const [vision, setVision] = useState([1])
+  const [vision, setVision] = useState([])
 
   const onSubmit = async e => {
     e.preventDefault()
@@ -29,7 +29,7 @@ const Modal = ({ uploadFile, setFile }) => {
           console.log(progressEvent)
         }
       })
-      setTimeout(setVision(res.data), 200)
+      setVision(res.data)
 
     } catch (err) {
       if (err.response.status === 500) { console.log('Problem with Server') }
