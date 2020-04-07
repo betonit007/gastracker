@@ -1,4 +1,4 @@
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS } from '../types'
 
 export default (state, action) => {
     switch (action.type) {
@@ -29,6 +29,11 @@ export default (state, action) => {
             return {
                 ...state,
                 transactions: []
+            }
+        case SINGLE_TRANS:
+            return {
+                ...state,
+                selectedTrans: action.payload
             }
         default:
             return state

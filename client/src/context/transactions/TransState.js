@@ -3,17 +3,28 @@ import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
 import AuthContext from '../auth/authContext'
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS } from '../types'
 
 const TransState = props => {
   const initialState = {
     transactions: [],
+    selectedTrans: {},
     loading: true,
     millisecs: 604800000
   }
 
   const [state, dispatch] = useReducer(transReducer, initialState)
   const { user } = useContext(AuthContext)
+
+  // Get single transaction from state
+
+  const getSingleTransaction = id => {
+    const singleTrans = state.transactions.find(trans => trans._id === id)
+    dispatch({
+      type: SINGLE_TRANS,
+      payload: singleTrans
+    })
+  }
 
   //Get Transactions by user
   const getUserTransactions = async (id, millisecs = 604800000) => {  //millisecs = 1 week
@@ -82,10 +93,12 @@ const TransState = props => {
         transactions: state.transactions,
         loading: state.loading,
         millisecs: state.millisecs,
+        selectedTrans: state.selectedTrans,
         getUserTransactions,
         deleteTransaction,
         addTransaction,
-        clearTransState
+        clearTransState,
+        getSingleTransaction
       }}
     >
       {props.children}

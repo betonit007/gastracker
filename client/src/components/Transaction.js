@@ -1,17 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import TransContext from '../context/transactions/transContext'
+import EditModal from './helpers/EditModal'
 
 const Transaction = ({ trans }) => {
-  console.log(trans)
-  const { deleteTransaction } = useContext(TransContext);
 
-  const sign = trans.total < 0 ? '-' : '+'
+  const { deleteTransaction, getSingleTransaction } = useContext(TransContext);
+  const [modal, toggleModal] = useState(false)
+
+  const getTransToggleModal = id => {
+    getSingleTransaction(id)
+    toggleModal(true)
+  }
 
   return (
     <>
-      <li className={trans.amount < 0 ? 'minus' : 'plus'} key={trans.id}>
-        {trans.store} <span>{sign}${Math.abs(trans.total)}</span><button className="delete-btn" onClick={() => deleteTransaction(trans._id)}>x</button>
-      </li>
+      { modal && <EditModal deleteTransaction={deleteTransaction} trans={trans} toggleModal={toggleModal}/> }
+      <div className='single-transaction' onClick={()=>getTransToggleModal(trans._id)}>
+        <li key={trans.id}>
+          {trans.store} <span>{trans.total}</span>
+        </li>
+      </div>
     </>
   )
 }

@@ -40,7 +40,7 @@ router.post('/', [
         state,
         total,
         perGallon,
-        numGallons
+        gallons
       })
 
       const reading = await newReading.save()

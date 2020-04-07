@@ -2,17 +2,19 @@ import React, { useState, useEffect, useContext } from 'react'
 import TransContext from '../../context/transactions/transContext'
 import PropTypes from 'prop-types'
 
-const VisionResults = ({ vision, resetModal }) => {
+const EditResults = ({ toggleModal }) => {
 
-  const { addTransaction } = useContext(TransContext)
+  const { selectedTrans } = useContext(TransContext)
+  console.log(selectedTrans)
+  const { store, street, gallons, total, state, city } = selectedTrans
 
   const [reading, setReading] = useState({
-    store: '',
-    street: '',
-    gallons: '',
-    total: '',
-    state: '',
-    city: ''
+    store: store,
+    street: street,
+    gallons: gallons,
+    total: total,
+    state: state ? state : "",
+    city: city ? city: ""
   })
 
   const setText = e => {
@@ -31,17 +33,10 @@ const VisionResults = ({ vision, resetModal }) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    addTransaction(reading)
-    resetModal()
+    //addTransaction(reading)
+    //resetModal()
   }
 
-  useEffect(() => {
-    setReading({
-      ...reading,
-      store: vision[0],
-      street: vision[1]
-    })
-  }, vision)
 
   return (
     <div className='modal-margin'>
@@ -72,9 +67,8 @@ const VisionResults = ({ vision, resetModal }) => {
   )
 }
 
-VisionResults.propTypes = {
-  vision: PropTypes.array.isRequired,
-  resetModal: PropTypes.func.isRequired,
+EditResults.propTypes = {
+  
 }
 
-export default VisionResults
+export default EditResults

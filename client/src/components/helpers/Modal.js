@@ -44,7 +44,7 @@ const Modal = ({ uploadFile, setFile }) => {
         {vision.length > 0 ?
           (
             <>
-              <VisionResults vision={vision}/>
+              <VisionResults vision={vision} resetModal={resetModal}/>
             </>
           )
           :

@@ -201,7 +201,30 @@ input[type='number'] {
   transition: opacity 0.3s ease;
 }
 
-.list li:hover .delete-btn {
+.edit-btn {
+  cursor: pointer;
+  background-color: rgb(116, 238, 116);
+  border: 0;
+  font-size: 20px;
+  line-height: 20px;
+  padding: 2px 5px;
+  position: absolute;
+  top: 50%;
+  left: 110%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.single-transaction {
+  cursor: pointer;
+}
+
+.modal-margin {
+  margin: 20px 5px;
+}
+
+.list li:hover .delete-btn,
+.list li:hover .edit-btn {
   opacity: 1;
 }
 

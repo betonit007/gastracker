@@ -27,7 +27,7 @@ const ReadingSchema = new Schema({
     perGallon: {
         type: Number,
     },
-    numGallons: {
+    gallons: {
         type: Number,
     },
     date: {
