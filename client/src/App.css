@@ -61,7 +61,7 @@ h3 {
   display: flex;
 }
 
-.userLoggedIn {
+.userLoggedIn, .edit-delete {
   display: flex;
   align-content: center;
 }
@@ -148,6 +148,11 @@ input[type='number'] {
   width: 150px;
   height: 150px;
   margin: 10px auto;
+}
+
+.btn-delete {
+  background-color: red;
+  margin-left: 5px;
 }
 
 .register {

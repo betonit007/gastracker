@@ -5,17 +5,18 @@ import PropTypes from 'prop-types'
 const EditResults = ({ toggleModal }) => {
 
   const { selectedTrans } = useContext(TransContext)
-  console.log(selectedTrans)
-  const { store, street, gallons, total, state, city } = selectedTrans
+  const { store, street, gallons, total, state, city, _id } = selectedTrans
 
   const [reading, setReading] = useState({
     store: store,
     street: street,
     gallons: gallons,
     total: total,
-    state: state ? state : "",
-    city: city ? city: ""
+    state: state,
+    city: city
   })
+
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const setText = e => {
     setReading({
@@ -37,10 +38,14 @@ const EditResults = ({ toggleModal }) => {
     //resetModal()
   }
 
+  const initiateDelete = e => {
+    e.preventDefault()
+    setConfirmDelete(!confirmDelete)
+  }
 
   return (
     <div className='modal-margin'>
-      <h3 style={{textAlign: 'center'}}>Verify Results</h3>
+      <h3 style={{ textAlign: 'center' }}>Edit / Delete</h3>
       <form>
         <div className="form-control">
           <label htmlFor="store">
@@ -55,12 +60,29 @@ const EditResults = ({ toggleModal }) => {
           <label htmlFor="amount">
             Number of gallons
           </label>
-          <input onChange={e => setNumber(e)} type="number" placeholder="Enter number of gallons..." name="gallons" value={reading.gallons}/>
+          <input onChange={e => setNumber(e)} type="number" placeholder="Enter number of gallons..." name="gallons" value={reading.gallons} />
           <label htmlFor="amount">
             Amount
           </label>
-          <input onChange={e => setNumber(e)} type="number" placeholder="Enter total..." name="total" value={reading.total}/>
-          <button className="btn" onClick={e => onSubmit(e)}>Add transaction</button>
+          <input onChange={e => setNumber(e)} type="number" placeholder="Enter total..." name="total" value={reading.total} />
+
+          {
+            confirmDelete ?
+              (
+                <div className="edit-delete" >
+                  <button className="btn btn-delete" style={{margin: '10px 5px 30px 0'}} onClick={e => onSubmit(e)}>Confirm</button>
+                  <button className="btn" onClick={e => initiateDelete(e)}>Cancel</button>
+                </div>
+              )
+              :
+              (
+                <div className="edit-delete" >
+                  <button className="btn" onClick={e => onSubmit(e)}>Update</button>
+                  <button className="btn btn-delete" onClick={e => initiateDelete(e)}>Delete</button>
+                </div>
+              )
+
+          }
         </div>
       </form>
     </div>
@@ -68,7 +90,7 @@ const EditResults = ({ toggleModal }) => {
 }
 
 EditResults.propTypes = {
-  
+
 }
 
 export default EditResults

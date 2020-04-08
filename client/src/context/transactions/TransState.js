@@ -2,7 +2,6 @@ import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
-import AuthContext from '../auth/authContext'
 import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS } from '../types'
 
 const TransState = props => {
@@ -14,10 +13,8 @@ const TransState = props => {
   }
 
   const [state, dispatch] = useReducer(transReducer, initialState)
-  const { user } = useContext(AuthContext)
 
   // Get single transaction from state
-
   const getSingleTransaction = id => {
     const singleTrans = state.transactions.find(trans => trans._id === id)
     dispatch({

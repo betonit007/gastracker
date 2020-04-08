@@ -27,7 +27,7 @@ router.post('/', [
     }
     try {
       
-      const { store, street, city, state, total, perGallon, numGallons } = req.body
+      const { store, street, city, state, total, perGallon, gallons } = req.body
       const user = await User.findById(req.user.id).select('-password')
 
       const newReading = new Reading({
@@ -53,7 +53,29 @@ router.post('/', [
     }
   })
 
-//private route to get all readings
+//private route to get on reading by id
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const readings = await Reading.findOne({})
+
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Server Error')
+  }
+})
+
+//update a post by id
+router.patch('/update', auth, async(req, res) => {
+  try {
+    console.log(req.user)
+    console.log(req.body)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Server Error with updating reading')
+  }
+})
+
+//private route to get all readings for user by id
 router.get('/:id/:millisecs', auth, async (req, res) => {
   try {
     const readings = await Reading.find(
