@@ -19,14 +19,14 @@ router.post('/', [
   ]
 ],
   async (req, res) => {
-    
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors)
       return res.status(400).json({ errors: errors.array() })
     }
     try {
-      
+
       const { store, street, city, state, total, perGallon, gallons } = req.body
       const user = await User.findById(req.user.id).select('-password')
 
@@ -56,7 +56,8 @@ router.post('/', [
 //private route to get on reading by id
 router.get('/:id', auth, async (req, res) => {
   try {
-    const readings = await Reading.findOne({})
+    const reading = await Reading.findOne({_id: req.params.id})
+    console.log()
 
   } catch (err) {
     console.error(err.message)
@@ -65,10 +66,13 @@ router.get('/:id', auth, async (req, res) => {
 })
 
 //update a post by id
-router.patch('/update', auth, async(req, res) => {
+router.put('/', auth, async (req, res) => {
+  const { store, street, gallons, total, state, city } = req.body
+  
+
   try {
-    console.log(req.user)
-    console.log(req.body)
+    const reading = await Reading.updateOne({_id: req.body._id}, { store, street, gallons, total, state, city })
+    res.json(reading)
   } catch (err) {
     console.error(err.message)
     res.status(500).send('Server Error with updating reading')

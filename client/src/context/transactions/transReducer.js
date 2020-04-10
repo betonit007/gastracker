@@ -1,4 +1,4 @@
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION } from '../types'
 
 export default (state, action) => {
     switch (action.type) {
@@ -10,15 +10,15 @@ export default (state, action) => {
         case ADD_TRANSACTION:
             return {
                 ...state,
-                transactions: [ action.payload, ...state.transactions ] // this way puts most recent transaction at front of array
-                
+                transactions: [action.payload, ...state.transactions] // this way puts most recent transaction at front of array
+
             }
         case USER_TRANSACTIONS:
             return {
                 ...state,
                 transactions: action.payload.res,
                 millisecs: action.payload.millisecs,
-                loading: false            
+                loading: false
             }
         case CHANGE_DAYS:
             return {
@@ -35,8 +35,15 @@ export default (state, action) => {
                 ...state,
                 selectedTrans: action.payload
             }
+        case UPDATE_TRANSACTION:
+        
+            const { _id, store, gallons, total, street, city, state: geoState } = action.payload
+            return {
+                ...state,
+                transactions: state.transactions.map(trans => trans._id === _id ? { ...trans, store, gallons, total, street, city, state:geoState } : trans //had to rename state(NY, NC, etc so it would not interfer in state(data))
+                )
+            }
         default:
             return state
-
     }
 }

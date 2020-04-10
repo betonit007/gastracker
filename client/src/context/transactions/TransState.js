@@ -2,7 +2,7 @@ import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION } from '../types'
 
 const TransState = props => {
   const initialState = {
@@ -13,6 +13,29 @@ const TransState = props => {
   }
 
   const [state, dispatch] = useReducer(transReducer, initialState)
+
+  //Update transaction 
+
+  const updateTransaction = async (updatedTrans) => {
+  
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    } 
+
+    try {
+      axios.put(`/api/readings/`, updatedTrans, config)
+    
+      dispatch({
+        type: UPDATE_TRANSACTION,
+        payload: updatedTrans
+      })
+      
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   // Get single transaction from state
   const getSingleTransaction = id => {
@@ -95,7 +118,8 @@ const TransState = props => {
         deleteTransaction,
         addTransaction,
         clearTransState,
-        getSingleTransaction
+        getSingleTransaction,
+        updateTransaction
       }}
     >
       {props.children}

@@ -4,16 +4,17 @@ import PropTypes from 'prop-types'
 
 const EditResults = ({ toggleModal }) => {
 
-  const { selectedTrans } = useContext(TransContext)
+  const { selectedTrans, deleteTransaction, updateTransaction } = useContext(TransContext)
   const { store, street, gallons, total, state, city, _id } = selectedTrans
 
   const [reading, setReading] = useState({
-    store: store,
-    street: street,
-    gallons: gallons,
-    total: total,
-    state: state,
-    city: city
+    _id,
+    store,
+    street,
+    gallons,
+    total,
+    state,
+    city
   })
 
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -32,15 +33,19 @@ const EditResults = ({ toggleModal }) => {
     })
   }
 
-  const onSubmit = e => {
-    e.preventDefault();
-    //addTransaction(reading)
-    //resetModal()
+
+  const initiateDelete = () => {
+    setConfirmDelete(!confirmDelete)
   }
 
-  const initiateDelete = e => {
-    e.preventDefault()
-    setConfirmDelete(!confirmDelete)
+  const handleDelete = () => {
+    deleteTransaction(_id)
+    toggleModal()
+  }
+
+  const updateAndClose = () => {
+    updateTransaction(reading)
+    toggleModal()
   }
 
   return (
@@ -65,26 +70,25 @@ const EditResults = ({ toggleModal }) => {
             Amount
           </label>
           <input onChange={e => setNumber(e)} type="number" placeholder="Enter total..." name="total" value={reading.total} />
-
-          {
-            confirmDelete ?
-              (
-                <div className="edit-delete" >
-                  <button className="btn btn-delete" style={{margin: '10px 5px 30px 0'}} onClick={e => onSubmit(e)}>Confirm</button>
-                  <button className="btn" onClick={e => initiateDelete(e)}>Cancel</button>
-                </div>
-              )
-              :
-              (
-                <div className="edit-delete" >
-                  <button className="btn" onClick={e => onSubmit(e)}>Update</button>
-                  <button className="btn btn-delete" onClick={e => initiateDelete(e)}>Delete</button>
-                </div>
-              )
-
-          }
         </div>
       </form>
+      {
+        confirmDelete ?
+          (
+            <div className="edit-delete" >
+              <button className="btn btn-delete" style={{ margin: '10px 5px 30px 0' }} onClick={() => handleDelete()}>Confirm</button>
+              <button className="btn" onClick={e => initiateDelete(e)}>Cancel</button>
+            </div>
+          )
+          :
+          (
+            <div className="edit-delete" >
+              <button className="btn" onClick={() => updateAndClose()}>Update</button>
+              <button className="btn btn-delete" onClick={e => initiateDelete(e)}>Delete</button>
+            </div>
+          )
+
+      }
     </div>
   )
 }

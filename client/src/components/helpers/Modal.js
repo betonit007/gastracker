@@ -41,10 +41,11 @@ const Modal = ({ uploadFile, setFile }) => {
   return ReactDOM.createPortal(
     <div onClick={(e) => resetModal(e)} className='modalContainer'>
       <div className='modalContent' onClick={(e) => e.stopPropagation()} >
+        <div className="close-x" onClick={(e) => resetModal(e)}><span>X</span></div>
         {vision.length > 0 ?
           (
             <>
-              <VisionResults vision={vision} resetModal={resetModal}/>
+              <VisionResults vision={vision} resetModal={resetModal} />
             </>
           )
           :
