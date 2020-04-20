@@ -17,7 +17,7 @@ const Transaction = ({ trans }) => {
       { modal && <EditModal deleteTransaction={deleteTransaction} trans={trans} toggleModal={toggleModal}/> }
       <div className='single-transaction' onClick={()=>getTransToggleModal(trans._id)}>
         <li key={trans.id}>
-          {trans.store} <span>{trans.total}</span>
+          {trans.store} <span>${trans.total.toFixed(2)}</span>
         </li>
       </div>
     </>

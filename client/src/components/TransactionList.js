@@ -3,6 +3,7 @@ import Transaction from './Transaction'
 import RadioButtons from './helpers/RadioButtons'
 import TransContext from '../context/transactions/transContext'
 import AuthContext from '../context/auth/authContext'
+import Loading from './helpers/Loading'
 
 const TransactionList = () => {
 
@@ -15,21 +16,19 @@ const TransactionList = () => {
   }, [user])
 
   return (
-    <>
+    <div className='transaction-list'>
       <header className='underline-header'>
         <h3>History</h3>
-        <RadioButtons user={user && user._id}/>
+        <RadioButtons user={user && user._id} />
       </header>
-      {loading ?
-        'loading...'
-        :
-        <ul className="list">
-          {transactions.map(trans => (
-            <Transaction key={trans._id} trans={trans} />
-          ))}
-        </ul>
-      }
-    </>
+      {loading && <Loading />}
+
+      <ul className={`list ${loading && ' fade'}`}>
+        {transactions.map(trans => (
+          <Transaction key={trans._id} trans={trans} />
+        ))}
+      </ul>
+    </div>
   )
 }
 

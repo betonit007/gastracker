@@ -1,8 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import AuthContext from '../context/auth/authContext'
+import setAuthToken from '../utils/setAuthToken'
 
 const Landing = () => {
+
+  if(localStorage.token) {
+    setAuthToken(localStorage.token)
+  }
 
   const { isAuthenticated, loadUser } = useContext(AuthContext)
 

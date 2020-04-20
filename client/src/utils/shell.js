@@ -1,0 +1,32 @@
+const shell = {
+
+    0: "Welcome to Shell",
+    1: "53221920134",
+    2: "Quality Mart #34",
+    3: "5203 MIAMI BLVD",
+    4: "DURHAM",
+    5: "NC",
+    6: "27703",
+    7: "DATE 04/07/20 07:50",
+    8: "TRAN# 9084944",
+    9: "PUMP# 08",
+    10: "SERVICE LEVEL: SELF",
+    11: "PRODUCT: UNLEAD",
+    12: "GALLONS:",
+    13: "7.213",
+    14: "PRICE/G: $",
+    15: "FUEL SALE $",
+    16: "1.849",
+    17: "13.34",
+    18: "CREDIT",
+    19: "$13.34",
+    20: "XXXX XXXX XXXX 1444",
+    21: "VISA",
+    22: "Swiped",
+    23: "APPROVED",
+    24: "AUTH # 07658D",
+    25: "INV # 624668",
+    26: "Please come again",
+    27: ""
+
+}

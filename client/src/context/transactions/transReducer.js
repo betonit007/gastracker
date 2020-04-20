@@ -1,4 +1,4 @@
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION, SET_LOADING, FINAL_RESULTS } from '../types'
 
 export default (state, action) => {
     switch (action.type) {
@@ -42,6 +42,16 @@ export default (state, action) => {
                 ...state,
                 transactions: state.transactions.map(trans => trans._id === _id ? { ...trans, store, gallons, total, street, city, state:geoState } : trans //had to rename state(NY, NC, etc so it would not interfer in state(data))
                 )
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: true
+            }
+        case FINAL_RESULTS:
+            return {
+                ...state,
+                finalResult: action.payload
             }
         default:
             return state

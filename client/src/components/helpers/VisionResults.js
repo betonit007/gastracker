@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 
 const VisionResults = ({ vision, resetModal }) => {
 
-  const { addTransaction } = useContext(TransContext)
+  const { addTransaction, formatVisionResponse, finalResult } = useContext(TransContext)
 
   const [reading, setReading] = useState({
-    store: '',
-    street: '',
-    gallons: '',
-    total: '',
-    state: '',
-    city: ''
+    store: vision.store,
+    street: vision.street,
+    gallons: vision.gallons,
+    total: vision.total,
+    state: vision.state,
+    city: vision.city
   })
 
   const setText = e => {
@@ -34,14 +34,7 @@ const VisionResults = ({ vision, resetModal }) => {
     addTransaction(reading)
     resetModal()
   }
-
-  useEffect(() => {
-    setReading({
-      ...reading,
-      store: vision[0],
-      street: vision[1]
-    })
-  }, vision)
+  ///remove useeffect and try putting vision values directly in value fields
 
   return (
     <div className='modal-margin'>
@@ -60,11 +53,11 @@ const VisionResults = ({ vision, resetModal }) => {
           <label htmlFor="amount">
             Number of gallons
           </label>
-          <input onChange={e => setNumber(e)} type="number" placeholder="Enter number of gallons..." name="gallons" value={reading.gallons}/>
+          <input onChange={e => setNumber(e)} type="number" placeholder="Enter number of gallons..." name="gallons" value={parseFloat(reading.gallons).toFixed(2)}/>
           <label htmlFor="amount">
             Amount
           </label>
-          <input onChange={e => setNumber(e)} type="number" placeholder="Enter total..." name="total" value={reading.total}/>
+          <input onChange={e => setNumber(e)} type="number" placeholder="Enter total..." name="total" value={parseFloat(reading.total).toFixed(2)}/>
           <button className="btn" onClick={e => onSubmit(e)}>Add transaction</button>
         </div>
       </form>
@@ -73,7 +66,7 @@ const VisionResults = ({ vision, resetModal }) => {
 }
 
 VisionResults.propTypes = {
-  vision: PropTypes.array.isRequired,
+  vision: PropTypes.object.isRequired,
   resetModal: PropTypes.func.isRequired,
 }
 

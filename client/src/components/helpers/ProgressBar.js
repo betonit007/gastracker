@@ -4,7 +4,6 @@ import Filler from './Filler'
 import './progressBar.css'
 
 const ProgressBar = ({ percentage }) => {
-    console.log(percentage)
 
     return (
         <div className='progress-bar'>

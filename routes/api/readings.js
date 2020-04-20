@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator')
 const vision = require('@google-cloud/vision');
 const auth = require('../../middleware/auth')
+const formatVisionResponse = require('./resources/formatVisionResponse')
 const Reading = require('../../models/Readings')
 const User = require('../../models/Users')
 
@@ -122,7 +123,7 @@ router.delete('/:id', auth, async (req, res) => {
     const reading = await Reading.findById(req.params.id)
 
     if (!reading) {
-      return res.status(404).json({ msg: 'Post not found' })
+      return res.status(404).json({ msg: 'Reading not found' })
     }
 
     if (reading.user.toString() !== req.user.id) {
@@ -157,12 +158,12 @@ router.post('/upload', async (req, res) => {
     }
     // Creates a client
     const client = new vision.ImageAnnotatorClient();
-    const [result] = await client.textDetection(`./routes/api/resources/${file.name}`);
-
-    res.json(result.fullTextAnnotation.text.split('\n'))
+    const [result] = await client.textDetection(`./routes/api/resources/${file.name}`)
+    console.log(result.fullTextAnnotation.text)
+    const formattedReading = formatVisionResponse(result.fullTextAnnotation.text.split('\n'))
+    console.log(formattedReading)
+    res.json(formattedReading)
   })
-})
-
-//GOOGLE_APPLICATION_CREDENTIALS="C:\Users\timna\dev\googleCloud\vision\resources\fuel.json" node vision.js    
+}) 
 
 module.exports = router

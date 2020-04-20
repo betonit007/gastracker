@@ -2,12 +2,13 @@ import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import TransContext from './transContext'
 import transReducer from './transReducer'
-import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION } from '../types'
+import { USER_TRANSACTIONS, DELETE_TRANSACTION, ADD_TRANSACTION, CHANGE_DAYS, CLEAR_TRANSSTATE, SINGLE_TRANS, UPDATE_TRANSACTION, SET_LOADING, FINAL_RESULTS } from '../types'
 
 const TransState = props => {
   const initialState = {
     transactions: [],
     selectedTrans: {},
+    finalResult: {},
     loading: true,
     millisecs: 604800000
   }
@@ -48,7 +49,8 @@ const TransState = props => {
 
   //Get Transactions by user
   const getUserTransactions = async (id, millisecs = 604800000) => {  //millisecs = 1 week
-    
+    setLoading()
+
     try {
       const res = await axios.get(`/api/readings/${id}/${millisecs}`);
       dispatch({
@@ -72,6 +74,7 @@ const TransState = props => {
 
     try {
       const res = await axios.post('/api/readings', transaction, config);
+    
       dispatch({
         type: ADD_TRANSACTION,
         payload: res.data
@@ -105,6 +108,39 @@ const TransState = props => {
       type: CLEAR_TRANSSTATE
     })
   }
+
+  const setLoading = () => {
+    dispatch({
+      type: SET_LOADING
+    })
+  }
+
+  const formatVisionResponse = reading => {
+
+    for (let i = 0; i <= 3; i++) {
+      if (reading[i].indexOf('Sheetz') > -1 || reading[i].indexOf('SHEETZ') > -1) {
+        const finalResults = {
+          store: reading[0],
+          street: reading[2],
+          gallons: reading[10],
+          total: reading[11],
+          state: reading[4],
+          city: reading[3]
+        }
+        console.log(finalResults)
+        dispatch({
+          type: FINAL_RESULTS,
+          payload: finalResults
+        })
+      }
+      if (reading[i].indexOf('Shell') > -1 || reading[i].indexOf('SHELL') > -1) {
+        console.log('shell')
+      }
+      if (reading[i].indexOf('Dans') > -1 || reading[i].indexOf('DANS') > -1) {
+        console.log('shell')
+      }
+    }
+  }
   
 
   return (
@@ -114,12 +150,15 @@ const TransState = props => {
         loading: state.loading,
         millisecs: state.millisecs,
         selectedTrans: state.selectedTrans,
+        finalResult: state.finalResult,
         getUserTransactions,
         deleteTransaction,
         addTransaction,
         clearTransState,
         getSingleTransaction,
-        updateTransaction
+        updateTransaction,
+        setLoading,
+        formatVisionResponse
       }}
     >
       {props.children}

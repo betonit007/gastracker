@@ -12,7 +12,7 @@ const Modal = ({ uploadFile, setFile }) => {
   }
 
   const [upLoadPercentage, setUpLoadPercentage] = useState(0)
-  const [vision, setVision] = useState([])
+  const [vision, setVision] = useState(null)
 
   const onSubmit = async e => {
     e.preventDefault()
@@ -26,7 +26,6 @@ const Modal = ({ uploadFile, setFile }) => {
         },
         onUploadProgress: progressEvent => {
           setUpLoadPercentage(parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total)))
-          console.log(progressEvent)
         }
       })
       setVision(res.data)
@@ -42,7 +41,7 @@ const Modal = ({ uploadFile, setFile }) => {
     <div onClick={(e) => resetModal(e)} className='modalContainer'>
       <div className='modalContent' onClick={(e) => e.stopPropagation()} >
         <div className="close-x" onClick={(e) => resetModal(e)}><span>X</span></div>
-        {vision.length > 0 ?
+        {vision ?
           (
             <>
               <VisionResults vision={vision} resetModal={resetModal} />

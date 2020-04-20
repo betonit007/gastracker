@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import TransContext from '../context/transactions/transContext'
+import Loading from './helpers/Loading'
 
 const Balance = () => {
 
