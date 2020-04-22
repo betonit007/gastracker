@@ -148,9 +148,13 @@ router.post('/upload', async (req, res) => {
     return res.status(400).json({ msg: 'No file uploaded' })
   }
 
-  const file = req.files.file
+  
 
-  //TO MOVE PHOTO/FILE TO TO PUBLIC FOLDER
+  //TO MOVE PHOTO/FILE TO TO PUBLIC FOLDER 
+  //ADD try catch block for error protection
+  //delete photo after successful read
+  
+  const file = req.files.file
   file.mv(`${__dirname}/resources/${file.name}`, async err => {
     if (err) {
       console.error(err)
