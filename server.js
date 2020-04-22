@@ -15,7 +15,6 @@ app.use(`/api/readings`, require(`./routes/api/readings`));
 app.use(`/api/auth`, require(`./routes/api/auth`));
 
 
-app.use(express.static(path.join(__dirname, './client/build')))
 
 app.get('*', function(_, res) {
   res.sendFile(path.join(__dirname, './client/build/index.html'), function(err) {
