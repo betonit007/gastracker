@@ -19,6 +19,7 @@ if (process.env.NODE_ENV) {
     app.use(express.static('client/build'));
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    });
 
     process.env.GOOGLE_APPLICATION_CREDENTIALS = {
         type: process.env.GOOGLE_TYPE,
@@ -32,7 +33,6 @@ if (process.env.NODE_ENV) {
         auth_provider_x509_cert_url: process.env.GOOGLE_AUTH_PROVIDER_X509,
         client_x509_cert_url: process.env.GOOGLE_CLIENT_X509  
     }
-    });
 }
 
 const PORT = process.env.PORT || 5000;
