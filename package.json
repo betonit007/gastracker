@@ -4,6 +4,7 @@
   "description": "Gas Tracker / Google Vision",
   "main": "index.js",
   "scripts": {
+    "preinstall" : "node gcpSetup.js",
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
