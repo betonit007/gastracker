@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Filler from './Filler'
 import './progressBar.css'
 
 const ProgressBar = ({ percentage }) => {
 
     return (
-        <div className='progress-bar'>
-           <Filler percentage={percentage}/>
+        <div className="loading animated fadeIn"  style={{width:`${percentage}%`}}>Loading
+            <div className="bg"></div>
         </div>
     )
 }
@@ -17,3 +16,5 @@ ProgressBar.propTypes = {
 }
 
 export default ProgressBar
+
+

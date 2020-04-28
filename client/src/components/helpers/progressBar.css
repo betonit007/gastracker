@@ -1,20 +1,54 @@
-.progress-bar {
-    margin-bottom: 10px;
-    position: relative;
-    height: 20px;
-    width: 100%;
+
+@-webkit-keyframes MOVE-BG {
+	from {
+		-webkit-transform: translateX(0);
+	}
+	to { 
+		-webkit-transform: translateX(46px);
+	}
 }
 
-.filler {
-  height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    #9c88ff,
-    #9c88ff 10px,
-    #dfb4f3 10px,
-    #dfb4f3 20px
-  );
-    height: inherit;
-    transition: width .2s ease-in;
+@keyframes MOVE-BG {
+	from {
+		transform: translateX(0);
+	}
+	to { 
+		transform: translateX(46px);
+	}
 }
 
+
+.loading {
+	height: auto;
+  text-align: center;
+  color: #4c3f2e;	
+  position: relative;
+  overflow: hidden;
+  font-style: italic;
+  transition: width .3s ease-in;
+}
+
+.bg{
+    position: absolute;
+    left: -46px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        #9c88ff,
+        #9c88ff 10px,
+        #dfb4f3 10px,
+        #dfb4f3 20px
+      );
+    
+  -webkit-animation-name: MOVE-BG;
+	-webkit-animation-duration: .6s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+	
+    animation-name: MOVE-BG;
+	animation-duration: .6s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
