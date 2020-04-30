@@ -4,6 +4,7 @@ import AuthState from './context/auth/AuthState'
 import TransState from './context/transactions/TransState'
 import PrivateRoute from './routing/PrivateRoute'
 import Header from './components/Header'
+import Alert from './components/Alert'
 import Landing from './components/Landing'
 import Main from './Main'
 import Register from './components/Register'
@@ -20,6 +21,7 @@ const App = () => {
           <div className="App">
             <div className="container">
               <Header />
+              <Alert />
               <Switch>
                 <Route exact path='/' component={Landing} />
                 <Route exact path='/register' component={Register} />
