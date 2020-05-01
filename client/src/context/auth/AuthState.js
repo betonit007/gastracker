@@ -1,9 +1,9 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import axios from 'axios'
 import AuthContext from './authContext'
 import authReducer from './authReducer'
 import setAuthToken from '../../utils/setAuthToken'
-import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, CLEAR_ERRORS, SAVE_TRANSACTION, UNSAVE_TRANSACTION, SET_LOADING } from '../types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, CLEAR_ERRORS, SET_ALERT, CLEAR_ALERT, SET_LOADING } from '../types'
 
 const AuthState = props => {
     const initialState = {
@@ -12,11 +12,25 @@ const AuthState = props => {
         loading: true,
         user: null,
         error: null,
+        authMessage: '',
         registerPage: false,
         saved: []
     }
 
     const [ state, dispatch ] = useReducer(authReducer, initialState)
+
+    const sendAlert = (authMessage, danger=false) => {
+
+        dispatch({
+            type: SET_ALERT,
+            payload: authMessage
+        })
+        setTimeout(()=> {
+          dispatch({
+              type: CLEAR_ALERT
+          })
+        }, 3500)
+    }
 
      //Load User
      const loadUser = async () => {
@@ -49,10 +63,8 @@ const AuthState = props => {
             loadUser();
         } catch (err) {
             console.log(err.response.data)
-            dispatch({
-                type: REGISTER_FAIL,
-                payload: err.response.data.msg
-            })
+            sendAlert(err.response.data.errors[0].msg)
+        
         }
     }
 
@@ -106,6 +118,7 @@ const AuthState = props => {
                user: state.user,
                error: state.error,
                registerPage: state.registerPage,
+               authMessage: state.authMessage,
                register,
                loadUser,
                login,

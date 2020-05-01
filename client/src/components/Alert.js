@@ -1,22 +1,43 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import authContext from '../context/auth/authContext'
 
 const Alert = () => {
 
-    const styles={
-        border: `1px solid red`,
-        backgroundColor: 'rgba(230, 49, 85, 0.658)',
-        position: 'absolute',
-        width: '100%',
-        height: '30px',
-        textAlign: 'center',
-        top: '20px'
-    }
+  const { authMessage } = useContext(authContext)
+  
+  const styles = {
+    border: `1px solid red`,
+    backgroundColor: 'rgba(230, 49, 85, 0.9)',
+    width: '80%',
+    height: '60px',
+    color: 'white',
+    borderRadius: '10px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
-    return (
-        <div style={styles}>
-         Alert!!! TEST!!!   
+  const container = {
+    margin: 'auto',
+    position: 'absolute',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center'
+  }
+
+
+  return (
+    <>
+      {authMessage && (
+        <div style={container}>
+          <div style={styles}>
+            {authMessage && authMessage}
+          </div>
         </div>
-    )
+      )
+      }
+    </>
+  )
 }
 
 export default Alert

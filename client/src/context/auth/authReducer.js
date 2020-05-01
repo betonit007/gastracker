@@ -7,7 +7,9 @@ import {
     LOGOUT,
     CLEAR_ERRORS,
     LOGIN_SUCCESS,
-    SET_LOADING
+    SET_LOADING,
+    SET_ALERT,
+    CLEAR_ALERT
 } from '../types';
 
 export default (state, action) => {
@@ -53,6 +55,17 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: true
+            }
+        case SET_ALERT:
+            console.log(action.payload)
+            return {
+                ...state,
+                authMessage: action.payload
+            }
+        case CLEAR_ALERT:
+            return {
+                ...state,
+                authMessage: ''
             }
         default:
             return state;

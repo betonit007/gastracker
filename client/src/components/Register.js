@@ -4,7 +4,7 @@ import AuthContext from '../context/auth/authContext'
 
 const Register = () => {
 
-  const { register, isAuthenticated, loadUser } = useContext(AuthContext)
+  const { register, isAuthenticated, loadUser, error } = useContext(AuthContext)
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -37,6 +37,7 @@ const Register = () => {
   }
 
   return (
+
     <>
       <h3 className='registerH3'>Register</h3>
       <form onSubmit={onSubmit}>

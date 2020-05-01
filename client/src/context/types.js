@@ -30,3 +30,4 @@ export const CHANGE_DAYS='CHANGE_DAYS';
 export const CLEAR_TRANSSTATE='CLEAR_TRANSSTATE';
 export const SINGLE_TRANS = 'SINGLE_TRANS';
 export const FINAL_RESULTS = 'FINAL_RESULTS';
+export const CLEAR_ALERT = 'CLEAR_ALERT';
