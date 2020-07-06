@@ -3,11 +3,11 @@ import authContext from '../context/auth/authContext'
 
 const Alert = () => {
 
-  const { authMessage } = useContext(authContext)
+  const { authMessage, dangerMessage } = useContext(authContext)
   
   const styles = {
-    border: `1px solid red`,
-    backgroundColor: 'rgba(230, 49, 85, 0.9)',
+    border: `1px solid ${dangerMessage && 'red'}`,
+    backgroundColor: dangerMessage ?  'rgba(230, 49, 85, 0.9)' : 'rgba(4, 190, 20, 0.7',
     width: '80%',
     height: '60px',
     color: 'white',
@@ -25,7 +25,7 @@ const Alert = () => {
     justifyContent: 'center'
   }
 
-
+  console.log(dangerMessage)
   return (
     <>
       {authMessage && (

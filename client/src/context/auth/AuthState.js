@@ -13,17 +13,18 @@ const AuthState = props => {
         user: null,
         error: null,
         authMessage: '',
+        dangerMessage: false,
         registerPage: false,
         saved: []
     }
 
     const [ state, dispatch ] = useReducer(authReducer, initialState)
 
-    const sendAlert = (authMessage, danger=false) => {
+    const sendAlert = (authMessage, dangerMessage=false) => {
 
         dispatch({
             type: SET_ALERT,
-            payload: authMessage
+            payload: { authMessage, dangerMessage }
         })
         setTimeout(()=> {
           dispatch({
@@ -63,7 +64,7 @@ const AuthState = props => {
             loadUser();
         } catch (err) {
             console.log(err.response.data)
-            sendAlert(err.response.data.errors[0].msg)
+            sendAlert(err.response.data.errors[0].msg, true)
         
         }
     }
@@ -90,6 +91,7 @@ const AuthState = props => {
                 type: LOGIN_FAIL,
                 payload: err.response.data.msg
             })
+            sendAlert(err.response.data.errors[0].msg, true)
         }
 
     }
@@ -119,6 +121,7 @@ const AuthState = props => {
                error: state.error,
                registerPage: state.registerPage,
                authMessage: state.authMessage,
+               dangerMessage: state.dangerMessage,
                register,
                loadUser,
                login,

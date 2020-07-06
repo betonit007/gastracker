@@ -60,12 +60,14 @@ export default (state, action) => {
             console.log(action.payload)
             return {
                 ...state,
-                authMessage: action.payload
+                authMessage: action.payload.authMessage,
+                dangerMessage: action.payload.dangerMessage
             }
         case CLEAR_ALERT:
             return {
                 ...state,
-                authMessage: ''
+                authMessage: '',
+                dangerMessage: false
             }
         default:
             return state;

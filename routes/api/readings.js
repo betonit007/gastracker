@@ -1,5 +1,6 @@
 const express = require('express')
-const router = express.Router();
+const router = express.Router()
+var fs = require('fs')
 const { check, validationResult } = require('express-validator')
 const vision = require('@google-cloud/vision');
 const auth = require('../../middleware/auth')
@@ -148,8 +149,6 @@ router.post('/upload', async (req, res) => {
     return res.status(400).json({ msg: 'No file uploaded' })
   }
 
-  
-
   //TO MOVE PHOTO/FILE TO TO PUBLIC FOLDER 
   //ADD try catch block for error protection
   //delete photo after successful read
@@ -163,10 +162,11 @@ router.post('/upload', async (req, res) => {
     // Creates a client
     const client = new vision.ImageAnnotatorClient();
     const [result] = await client.textDetection(`./routes/api/resources/${file.name}`)
-    console.log(result.fullTextAnnotation.text)
     const formattedReading = formatVisionResponse(result.fullTextAnnotation.text.split('\n'))
-    console.log(formattedReading)
     res.json(formattedReading)
+    fs.unlink(`${__dirname}/resources/${file.name}`, function(err){
+      if(err) return console.log(err);
+ });  
   })
 }) 
 

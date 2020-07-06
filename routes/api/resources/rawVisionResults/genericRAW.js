@@ -1,0 +1,37 @@
+const formatVisionResponse = require('../formatVisionResponse')
+
+ const vision = ['Welcome to Triangle',
+    'Fanily Fare',
+    '5282 S. Miami Blvd Durham NC 27783',
+    '04/26/2020 630329314',
+    '08:44:41 AM',
+    'PUMP# 7',
+    'REGULAR',
+    '5.595G',
+    'PRICE/GAL',
+    '$1.539',
+    'FUEL TOTAL',
+    '8.61',
+    'CREDIT',
+    '8.61',
+    'VISA',
+    '***********9375',
+    'Entry Method:Swiped',
+    'Auth #: 116919',
+    'Resp Code: 000',
+    'Stan: 06235350399',
+    'Invoice #: 283366',
+    'BP SITE ID: 2308465',
+    'Learn how to earn rewards',
+    'with BP credit card.',
+    'Take application or apply online at',
+    'mybpstation.com',
+    'REWARD',
+    '************9375',
+    'Stan: 06235350399',
+    'Thank you for choosing',
+    'Family Fare',
+    '']
+
+    let reading = formatVisionResponse(vision)
+    console.log(reading)

@@ -1,28 +1,45 @@
-[0] Time:
-[0] 09:59
-[0] Auth#
-[0] 02445D
-[0] UI Acct
-[0] %23
-[0] ************1444
-[0] Pump
-[0] Gallons
-[0] Price
-[0] 4.771
-[0] $ 1.459
-[0] Product
-[0] Amount
-[0] Regular
-[0] $ 6.96
-[0] Total Sale
-[0] $ 6.96
-[0] SALE-
-[0] Card Swiped
-[0] Approved
-[0] TranID# 011403 062811
-[0] Thank you
-[0] For your purchase of
-[0] Kirkland Signature
-[0] Fuel
-[0] Visit Costco.com
-[0] Search: Fuel
+const formatVisionResponse = require('../formatVisionResponse')
+
+const vision = [
+    "COSTCO.",
+    "EWHOLESALE",
+    "Costco #12 06",
+    "1641 Pine Plaza Dr",
+    "Apex, NC 27523",
+    "Member#",
+    "111847464945",
+    "Invoice#",
+    "62811",
+    "Date:",
+    "04/23/20",
+    "Time:",
+    "09:59",
+    "Auth#",
+    "02445D",
+    "UI Acct",
+    "%23",
+    "************1444",
+    "Pump",
+    "Gallons",
+    "Price",
+    "4.771",
+    "$ 1.459",
+    "Product",
+    "Amount",
+    "Regular",
+    "$ 6.96",
+    "Total Sale",
+    "$ 6.96",
+    "SALE-",
+    "Card Swiped",
+    "Approved",
+    "TranID# 011403 062811",
+    "Thank you",
+    "For your purchase of",
+    "Kirkland Signature",
+    "Fuel",
+    "Visit Costco.com",
+    "Search: Fuel"
+]
+
+console.log(formatVisionResponse(vision))
